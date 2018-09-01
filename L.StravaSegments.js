@@ -78,7 +78,18 @@ L.Control.StravaSegments = L.Control.extend({
             for (var segment of JSON.parse(explorerResponse).segments) {
                 var points = polyline.decode(segment.points);
                 var segmentLine = new L.polyline(points, {
+                    weight: 3,
                     color: activityType === 'running' ? 'red' : 'blue'
+                });
+                segmentLine.on('mouseover', function(e) {
+                    e.target.setStyle({
+                        weight: 5
+                    });
+                });
+                segmentLine.on('mouseout', function(e) {
+                    e.target.setStyle({
+                        weight: 3
+                    });
                 });
                 var tooltip = `<h4>${segment.name}</h4>`;
                 tooltip += `Distance: ${segment.distance}m, hill`;

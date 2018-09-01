@@ -2,24 +2,24 @@
 
 Display Strava segments on a map!
 
-[Here is a demo](https://bagage.gitlab.io/Leaflet.StravaSegments). And the [associated source code](https://gitlab.com/bagage/Leaflet.StravaSegments/blob/master/public/index.html).
+[Here is a demo](https://bagage.gitlab.io/leaflet.stravasegments). And the [associated source code](https://gitlab.com/bagage/leaflet.stravasegments/blob/master/public/index.html).
 
-![demo image](https://gitlab.com/bagage/Leaflet.StravaSegments/raw/master/.example.png)
+![demo image](https://gitlab.com/bagage/leaflet.stravasegments/raw/master/.example.png)
 
 ## Dependencies
 
 Requires `Leaflet 1.+`, `FontAwesome 4.+`, `@mapbox/polyline` and `Leaflet.EasyButtons`. 
 
-See [package.json](https://gitlab.com/bagage/Leaflet.StravaSegments/blob/master/package.json) for details.
+See [package.json](https://gitlab.com/bagage/leaflet.stravasegments/blob/master/package.json) for details.
 
 ## Use it
 
 Install it:
 
 ```sh
-yarn add Leaflet.StravaSegments
+yarn add leaflet.stravasegments
 # or 
-npm install --save Leaflet.StravaSegments
+npm install --save leaflet.stravasegments
 ```
 
 Then add it to the map:

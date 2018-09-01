@@ -1,5 +1,5 @@
 {
-  "name": "Leaflet.StravaSegments",
+  "name": "leaflet.stravasegments",
   "version": "1.0.0",
   "description": "Display Strava segments on a map!",
   "main": "L.StravaSegments.js",

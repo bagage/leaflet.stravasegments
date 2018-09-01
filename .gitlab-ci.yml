@@ -1,0 +1,11 @@
+image: alpine:latest
+
+pages:
+  stage: deploy
+  script:
+  - cp L.StravaSegments.js public/
+  artifacts:
+    paths:
+    - public
+  only:
+  - master

@@ -2,13 +2,15 @@
 
 Display Strava segments on a map!
 
-[Here is a demo](https://demo).
+[Here is a demo](https://bagage.gitlab.io/Leaflet.StravaSegments). And the [associated source code](https://gitlab.com/bagage/Leaflet.StravaSegments/blob/master/public/index.html).
 
 ![demo image](https://gitlab.com/bagage/Leaflet.StravaSegments/raw/master/.example.png)
 
 ## Dependencies
 
-Requires Leaflet 1.+, FontAwesome 4.+, @mapbox/polyline and Leaflet.EasyButtons. See package.json for details.
+Requires `Leaflet 1.+`, `FontAwesome 4.+`, `@mapbox/polyline` and `Leaflet.EasyButtons`. 
+
+See [package.json](https://gitlab.com/bagage/Leaflet.StravaSegments/blob/master/package.json) for details.
 
 ## Use it
 

@@ -1,0 +1,22 @@
+{
+  "name": "leaflet.stravasegments",
+  "description": "Display Strava segments on a map!",
+  "main": "dist/L.StravaSegments.js",
+  "authors": [
+    "Gautier Pelloux-Prayer <gautier+git@damsy.net>"
+  ],
+  "license": "MIT",
+  "homepage": "https://gitlab.com/bagage/leaflet.stravasegments",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "@mapbox/polyline": "^0.2.0",
+    "font-awesome": "4",
+    "leaflet": "^1.3.4"
+    }
+}

@@ -59,6 +59,10 @@ L.Control.StravaSegments = L.Control.extend({
         return new L.DomUtil.create('div');
     },
 
+    computeAngle: function computeAngle(a, b) {
+        return Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
+    },
+
     showSegments: function showSegments(map, button, activityType) {
         var self = this;
         button.state('loading');
@@ -88,10 +92,15 @@ L.Control.StravaSegments = L.Control.extend({
                         continue;
                     }
                     var points = polyline.decode(segment.points);
+                    var color = activityType === 'running' ? 'red' : 'blue';
+
+                    var start = new L.triangleMarker(points[0], { width: 12, height: 10, rotation: self.computeAngle(L.point(points[0]), L.point(points[1])), color: color });
+                    var end = new L.circle(points[points.length - 1], { radius: 30, color: color });
+
                     var segmentLine = new L.polyline(points, {
                         id: segment.id,
                         weight: 3,
-                        color: activityType === 'running' ? 'red' : 'blue'
+                        color: color
                     });
                     segmentLine.on('mouseover', function (e) {
                         e.target.setStyle({
@@ -107,6 +116,8 @@ L.Control.StravaSegments = L.Control.extend({
                     tooltip += 'Distance: ' + segment.distance + 'm, hill';
                     if (segment.climb_category_desc != "NC") tooltip += ' (cat. ' + segment.climb_category_desc + ')';
                     tooltip += ': ' + segment.elev_difference + 'm (avg ' + segment.avg_grade + '%)';
+                    self.stravaLayer.addLayer(start);
+                    self.stravaLayer.addLayer(end);
                     self.stravaLayer.addLayer(segmentLine.bindTooltip(tooltip));
                 }
             } catch (err) {

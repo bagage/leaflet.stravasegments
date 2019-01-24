@@ -12,6 +12,8 @@ L.Control.StravaSegments = L.Control.extend({
     onAdd: function onAdd(map) {
         var self = this;
 
+        this.stravaLayer = new L.layerGroup([], { attribution: '<a href="https://strava.com">Strava</a>' });
+
         this.runningButton = new L.easyButton({
             states: [{
                 stateName: 'default',
@@ -63,6 +65,8 @@ L.Control.StravaSegments = L.Control.extend({
         var b = map.getBounds();
         var url = 'https://www.strava.com/api/v3/segments/explore?bounds=' + b.getSouth() + ',' + b.getWest() + ',' + b.getNorth() + ',' + b.getEast() + '&activity_type=' + activityType;
 
+        this.stravaLayer.addTo(map);
+
         this.get(url, L.bind(function (error, explorerResponse) {
             button.state('default');
             if (error) {
@@ -77,8 +81,15 @@ L.Control.StravaSegments = L.Control.extend({
                 for (var _iterator = JSON.parse(explorerResponse).segments[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                     var segment = _step.value;
 
+                    if (self.stravaLayer.getLayers().map(function (it) {
+                        return it.options.id;
+                    }).indexOf(segment.id) !== -1) {
+                        // this segment is already present, skipping
+                        continue;
+                    }
                     var points = polyline.decode(segment.points);
                     var segmentLine = new L.polyline(points, {
+                        id: segment.id,
                         weight: 3,
                         color: activityType === 'running' ? 'red' : 'blue'
                     });
@@ -96,7 +107,7 @@ L.Control.StravaSegments = L.Control.extend({
                     tooltip += 'Distance: ' + segment.distance + 'm, hill';
                     if (segment.climb_category_desc != "NC") tooltip += ' (cat. ' + segment.climb_category_desc + ')';
                     tooltip += ': ' + segment.elev_difference + 'm (avg ' + segment.avg_grade + '%)';
-                    segmentLine.addTo(map).bindTooltip(tooltip);
+                    self.stravaLayer.addLayer(segmentLine.bindTooltip(tooltip));
                 }
             } catch (err) {
                 _didIteratorError = true;

@@ -27,12 +27,21 @@
 <div id="mapid"></div>
 
 <script>
-    const map = L.map('mapid').setView([51.505, -0.09], 13);
+    const baseMap = L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {attribution: '<a href="https://openstreetmap.org">OSM contributors</a>'}
+    );
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-    L.control.stravaSegments({
+    const map = L.map('mapid', {
+        center: [51.505, -0.09],
+        zoom: 13,
+        layers: [baseMap]
+    });
+
+    const stravaControl = L.control.stravaSegments({
         stravaToken: 'c26891ce52c9d75feda90c0027bbc5f86a923a7b'
     }).addTo(map);
+    L.control.layers(null, {'Strava': stravaControl.stravaLayer }).addTo(map);
 </script>
 </body>
 </html>

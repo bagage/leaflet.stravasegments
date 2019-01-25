@@ -70,20 +70,35 @@ L.Control.StravaSegments = L.Control.extend({
     },
 
     showSegments: function (map, button, activityType) {
-        var self = this;
         button.state('loading');
-        var b = map.getBounds();
+        this.fetchSegments(map, button, activityType, map.getBounds());
+    },
+
+    fetchSegments: function (map, button, activityType, b) {
+        var self = this;
         var url = `https://www.strava.com/api/v3/segments/explore?bounds=${b.getSouth()},${b.getWest()},${b.getNorth()},${b.getEast()}&activity_type=${activityType}`;
 
         this.stravaLayer.addTo(map);
 
         this.get(url, L.bind(function (error, explorerResponse) {
-            button.state('default');
             if (error) {
+                button.state('default');
                 self.onError(error);
                 return;
             }
-            for (var segment of JSON.parse(explorerResponse).segments) {
+            var segments = JSON.parse(explorerResponse).segments;
+            if (segments.length === 10) {
+                // strava only returns 10 segments by request maximum. 
+                // In that case we divide the bbox multiple times
+                // until strava returns less than 10 segments
+                self.fetchSegments(map, button, activityType, L.latLngBounds(b.getSouthWest(), b.getCenter()));
+                self.fetchSegments(map, button, activityType, L.latLngBounds(b.getSouthEast(), b.getCenter()));
+                self.fetchSegments(map, button, activityType, L.latLngBounds(b.getNorthEast(), b.getCenter()));
+                self.fetchSegments(map, button, activityType, L.latLngBounds(b.getNorthWest(), b.getCenter()));
+            } else {
+                button.state('default');
+            }
+            for (var segment of segments) {
                 if (self.stravaLayer.getLayers().map(it => it.options.id).indexOf(segment.id) !== -1) {
                     // this segment is already present, skipping
                     continue;

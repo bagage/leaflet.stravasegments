@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "babel *.js --presets babel-preset-es2015 --out-dir dist/",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build && git commit dist -m 'Update dist' || true"
   },
   "dependencies": {
     "@mapbox/polyline": "^1.0.0",

@@ -64,25 +64,40 @@ L.Control.StravaSegments = L.Control.extend({
     },
 
     showSegments: function showSegments(map, button, activityType) {
-        var self = this;
         button.state('loading');
-        var b = map.getBounds();
+        this.fetchSegments(map, button, activityType, map.getBounds());
+    },
+
+    fetchSegments: function fetchSegments(map, button, activityType, b) {
+        var self = this;
         var url = 'https://www.strava.com/api/v3/segments/explore?bounds=' + b.getSouth() + ',' + b.getWest() + ',' + b.getNorth() + ',' + b.getEast() + '&activity_type=' + activityType;
 
         this.stravaLayer.addTo(map);
 
         this.get(url, L.bind(function (error, explorerResponse) {
-            button.state('default');
             if (error) {
+                button.state('default');
                 self.onError(error);
                 return;
+            }
+            var segments = JSON.parse(explorerResponse).segments;
+            if (segments.length === 10) {
+                // strava only returns 10 segments by request maximum. 
+                // In that case we divide the bbox multiple times
+                // until strava returns less than 10 segments
+                self.fetchSegments(map, button, activityType, L.latLngBounds(b.getSouthWest(), b.getCenter()));
+                self.fetchSegments(map, button, activityType, L.latLngBounds(b.getSouthEast(), b.getCenter()));
+                self.fetchSegments(map, button, activityType, L.latLngBounds(b.getNorthEast(), b.getCenter()));
+                self.fetchSegments(map, button, activityType, L.latLngBounds(b.getNorthWest(), b.getCenter()));
+            } else {
+                button.state('default');
             }
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
             var _iteratorError = undefined;
 
             try {
-                for (var _iterator = JSON.parse(explorerResponse).segments[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                for (var _iterator = segments[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                     var segment = _step.value;
 
                     if (self.stravaLayer.getLayers().map(function (it) {

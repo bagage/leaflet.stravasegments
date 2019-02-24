@@ -3,7 +3,7 @@ image: alpine:latest
 pages:
   stage: deploy
   script:
-  - cp L.StravaSegments.js public/
+  - cp index.js public/L.StravaSegments.js
   artifacts:
     paths:
     - public

@@ -2,6 +2,12 @@
 
 L.Control.StravaSegments = L.Control.extend({
     options: {
+        runningIcon: 'fa-trophy',
+        runningTitle: 'Show Strava running segments',
+        bikingIcon: 'fa-bicycle',
+        bikingTitle: 'Show Strava biking segments',
+        loadingIcon: 'fa-spinner fa-pulse',
+        loadingTitle: 'Loading…',
         stravaToken: null // strava API token, must be SET
     },
 
@@ -17,29 +23,29 @@ L.Control.StravaSegments = L.Control.extend({
         this.runningButton = new L.easyButton({
             states: [{
                 stateName: 'default',
-                icon: 'fa-trophy',
+                icon: self.options.runningIcon,
                 onClick: function onClick() {
                     self.showSegments(map, this, 'running');
                 },
-                title: 'Show Strava running segments'
+                title: self.options.runningTitle
             }, {
                 stateName: 'loading',
-                icon: 'fa-spinner fa-pulse',
-                title: 'Loading…'
+                icon: self.options.loadingIcon,
+                title: self.options.loadingTitle
             }]
         });
         this.bikingButton = new L.easyButton({
             states: [{
                 stateName: 'default',
-                icon: 'fa-bicycle',
+                icon: self.options.bikingIcon,
                 onClick: function onClick() {
                     self.showSegments(map, this, 'biking');
                 },
-                title: 'Show Strava biking segments'
+                title: self.options.bikingTitle
             }, {
                 stateName: 'loading',
-                icon: 'fa-spinner fa-pulse',
-                title: 'Loading…'
+                icon: self.options.loadingIcon,
+                title: self.options.loadingTitle
             }]
         });
 

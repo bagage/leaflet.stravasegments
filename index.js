@@ -16,7 +16,7 @@ L.Control.StravaSegments = L.Control.extend({
     onAdd: function (map) {
         var self = this;
 
-        this.stravaLayer = new L.layerGroup([], {attribution: '<a href="https://strava.com">Strava</a>' });
+        this.stravaLayer = new L.LayerGroup([], {attribution: '<a href="https://strava.com">Strava</a>' });
 
         this.runningButton = new L.easyButton({
                 states: [
@@ -112,10 +112,10 @@ L.Control.StravaSegments = L.Control.extend({
                 var points = polyline.decode(segment.points);
                 var color = activityType === 'running' ? 'red' : 'blue'; 
 
-                var start = new L.triangleMarker(points[0], {width: 12, height: 10, rotation: self.computeAngle(L.point(points[0]), L.point(points[1])), color});
-                var end = new L.circle(points[points.length - 1], {radius: 30, color});
+                var start = new L.TriangleMarker(points[0], {width: 12, height: 10, rotation: self.computeAngle(L.point(points[0]), L.point(points[1])), color});
+                var end = new L.Circle(points[points.length - 1], {radius: 30, color});
 
-                var segmentLine = new L.polyline(points, {
+                var segmentLine = new L.Polyline(points, {
                     id: segment.id,
                     weight: 3,
                     color

@@ -1,6 +1,6 @@
 {
   "name": "leaflet.stravasegments",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "main": "index.js",
   "description": "Display Strava segments on a map!",
   "repository": "https://gitlab.com/bagage/Leaflet.StravaSegments.git",

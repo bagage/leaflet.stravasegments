@@ -59,16 +59,22 @@ L.Control.StravaSegments = L.Control.extend({
 
         // do not allow button if map is too big
         map.on('zoom', function (e) {
-            var tooBig = e.target.getZoom() < 13;
-            if (tooBig) {
-                self.bikingButton.disable();
-                self.runningButton.disable();
-            } else {
-                self.bikingButton.enable();
-                self.runningButton.enable();
-            }
+            var map = e.target;
+            self.toggleButtonsState(map);
         });
+        this.toggleButtonsState(map);
         return new L.DomUtil.create('div');
+    },
+
+    toggleButtonsState: function(map) {
+        var tooBig = map.getZoom() < 13;
+        if (tooBig) {
+            this.bikingButton.disable();
+            this.runningButton.disable();
+        } else {
+            this.bikingButton.enable();
+            this.runningButton.enable();
+        }
     },
 
     computeAngle: function(a, b) {

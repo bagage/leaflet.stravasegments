@@ -172,11 +172,11 @@ L.Control.StravaSegments = L.Control.extend({
             if ((xhr.status === 200 || xhr.status === 0) && xhr.responseText) {
                 cb(null, xhr.responseText);
             } else {
-                cb(L.Control.StravaSegments.getError(xhr));
+                cb(self.getError(xhr));
             }
         };
         xhr.onerror = function () {
-            cb(L.Control.StravaSegments.getError(xhr));
+            cb(self.getError(xhr));
         };
         try {
             xhr.send();
